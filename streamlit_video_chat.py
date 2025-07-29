@@ -122,7 +122,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Our API Endpoint Configuration
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "https://youtuberag-l55k.onrender.com"
 PROCESS_VIDEO_ENDPOINT = f"{API_BASE_URL}/process_video"
 CHAT_ENDPOINT = f"{API_BASE_URL}/chat"
 
