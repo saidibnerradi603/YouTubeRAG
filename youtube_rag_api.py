@@ -103,6 +103,10 @@ Begin! (Do NOT output anything other than the Markdown answer.)
 
 prompt = PromptTemplate.from_template(prompt_template)
 
+
+ytt_api = YouTubeTranscriptApi()
+
+
 class VideoRequest(BaseModel):
     video_url: HttpUrl = Field(
         ...,
@@ -221,14 +225,12 @@ def process_youtube_video(video_id: str, language: str = "en") -> bool:
         # Step 1: Load the YouTube transcript using YouTube Transcript API
         try:
             # Get transcript using youtube-transcript-api
-            transcript_list = YouTubeTranscriptApi.get_transcript(
-                video_id, 
-                languages=[language]
-            )
-            
+            transcript = ytt_api.fetch(video_id, languages=[language])
+          
             # Combine all transcript segments into a single text
-            full_transcript = " ".join([segment['text'] for segment in transcript_list])
-            
+            full_transcript = ""
+            for snippet in transcript.snippets:
+                full_transcript += snippet.text + " "
             # Create Document object to match LangChain format
             documents = [Document(
                 page_content=full_transcript,
