@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, HttpUrl,Field
+from pydantic import BaseModel, HttpUrl,Field,field_validator
 import os
 import logging
 from urllib.parse import urlparse, parse_qs
@@ -114,6 +114,14 @@ class VideoRequest(BaseModel):
         description="Transcript language code (e.g., 'en' for English, 'es' for Spanish). Used to fetch the correct transcript from YouTube.",
         example="en"
     )
+    
+    @field_validator("language")
+    @classmethod  
+    def validate_language(cls, v):
+        allowed_languages = ["en", "es", "fr", "de", "it", "pt", "ru", "ja", "ko", "ar"]
+        if v not in allowed_languages:
+            raise ValueError(f"Language must be one of: {', '.join(allowed_languages)}")
+        return v
 
 class ChatRequest(BaseModel):
     video_id: str = Field(
