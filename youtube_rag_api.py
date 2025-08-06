@@ -6,6 +6,7 @@ import logging
 from urllib.parse import urlparse, parse_qs
 
 from youtube_transcript_api import YouTubeTranscriptApi
+from youtube_transcript_api.proxies import WebshareProxyConfig
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_pinecone import PineconeVectorStore
@@ -104,7 +105,12 @@ Begin! (Do NOT output anything other than the Markdown answer.)
 prompt = PromptTemplate.from_template(prompt_template)
 
 
-ytt_api = YouTubeTranscriptApi()
+ytt_api = YouTubeTranscriptApi(
+    proxy_config=WebshareProxyConfig(
+        proxy_username=os.getenv("PROXY_USERNAME"),
+        proxy_password=os.getenv("PROXY_PASSWORD"),
+    )
+)
 
 
 class VideoRequest(BaseModel):
