@@ -5,6 +5,11 @@ import re
 from datetime import datetime
 import time
 from urllib.parse import urlparse, parse_qs
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configure page
 st.set_page_config(
@@ -121,8 +126,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+
+
 # Our API Endpoint Configuration
-API_BASE_URL = "https://youtuberag-l55k.onrender.com"
+API_BASE_URL = os.environ.get("API_BASE_URL")
 PROCESS_VIDEO_ENDPOINT = f"{API_BASE_URL}/process_video"
 CHAT_ENDPOINT = f"{API_BASE_URL}/chat"
 
@@ -250,9 +258,9 @@ with col1:
         with st.container(border=True):
             video_id = st.session_state.video_id
             
-            # Display embedded YouTube video player instead of thumbnail
+            # Display embedded YouTube video player 
             youtube_embed_html = f'''
-            <iframe width="100%" height="200" src="https://www.youtube.com/embed/{video_id}" 
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/{video_id}?hl={language}&cc_lang_pref={language}&cc_load_policy=0" 
             frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
             gyroscope; picture-in-picture" allowfullscreen></iframe>
             '''
