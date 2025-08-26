@@ -90,7 +90,6 @@ The application uses a the Simple RAG  pipeline:
 | `/process_video` | POST | Process video transcript | `video_url`, `language` | Processing status |
 | `/chat` | POST | Answer questions about a video | `video_id`, `question` | Answer with sources |
 
-You can find the API documentation [here](https://youtuberag-l55k.onrender.com/docs).
 
 ## Usage
 
